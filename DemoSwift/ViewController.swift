@@ -9,8 +9,9 @@
 import UIKit
 import youtube_ios_player_helper
 import GoogleAPIClientForREST
+import GoogleSignIn
 
-class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelegate, YTPlayerViewDelegate {
+class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelegate, YTPlayerViewDelegate, GIDSignInUIDelegate {
 
     @IBOutlet var txtComment: UITextField!
     @IBOutlet var viewPlayer: YTPlayerView!
@@ -20,12 +21,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
     var maskLayer = CAGradientLayer()
     
     var dataArray : NSMutableArray = []
-    let VIDEO_ID = "kDI8dD4vReE"
+    let VIDEO_ID = "xS6pwQ1Gs2s"
     var ytCommentsData = YTLiveCommentsData()
+    var liveChatId: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-     
+        GIDSignIn.sharedInstance().scopes = ["https://www.googleapis.com/auth/youtube.readonly", "https://www.googleapis.com/auth/youtube", "https://www.googleapis.com/auth/youtube.force-ssl"]
+        GIDSignIn.sharedInstance().delegate = self
+        GIDSignIn.sharedInstance().uiDelegate = self
+        GIDSignIn.sharedInstance().signInSilently()
         txtComment.delegate = self
         dataArray = NSMutableArray.init()
         self.loadDemoVideo()
@@ -40,17 +45,25 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
 
     
     @IBAction func onSend(_ sender: Any) {
-        if (!(txtComment.text != nil) || txtComment.text?.count == 0){
-            return
+        if !GIDSignIn.sharedInstance().hasAuthInKeychain() || GIDSignIn.sharedInstance().currentUser == nil {
+            GIDSignIn.sharedInstance().signIn()
+        } else {
+            guard liveChatId != nil else {
+                return
+            }
+            print(GIDSignIn.sharedInstance().currentUser.authentication.accessToken)
+            if GIDSignIn.sharedInstance().currentUser.authentication.accessTokenExpirationDate.days(from: Date()) > 0 {
+                postComment()
+            } else {
+                GIDSignIn.sharedInstance().currentUser.authentication.refreshTokens { (authentication, error) in
+                    if let error = error {
+                        self.showAlert(error.localizedDescription)
+                    } else {
+                        self.postComment()
+                    }
+                }
+            }
         }
-        dataArray.add(txtComment.text as? String)
-        tableView.reloadData()
-        
-        txtComment.text = ""
-        
-        let indexPath = IndexPath(row: dataArray.count-1, section: 0)
-
-        tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -103,8 +116,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
     func getCommentsData() {
         YouTubeHelper.getLiveChatID(forVideoId: VIDEO_ID) { (liveChatID, error) in
             if let liveChatID = liveChatID {
+                self.liveChatId = liveChatID
                 YouTubeHelper.getComments(forLiveChatId: liveChatID, completion: { (commentData, error) in
-                    if let commentData = commentData {
+                    if let commentData = commentData, commentData.arrComments.count > 0 {
                         self.ytCommentsData = commentData
                         print(self.ytCommentsData.nextPageToken)
                         print(self.ytCommentsData.pollingIntervalMillis)
@@ -140,11 +154,58 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
         }
     }
     
+    func postComment() {
+        if txtComment.text!.count > 0 {
+            YouTubeHelper.postComment(forLiveChatId: liveChatId!, authToken: GIDSignIn.sharedInstance().currentUser.authentication.accessToken, comment: txtComment.text!) { (isPosted, msg) in
+                self.txtComment.text = ""
+                self.showAlert(msg)
+            }
+        } else {
+            showAlert("Comment cannot be empty.")
+        }
+    }
+    
     func scrollToBottom(){
 //        DispatchQueue.main.async {
             let indexPath = IndexPath(row: self.ytCommentsData.arrComments.count-1, section: 0)
             self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
 //        }
     }
+    
+    private func showAlert(_ message: String) {
+        let alertController: UIAlertController = UIAlertController.init(title: "", message: message, preferredStyle: UIAlertControllerStyle.alert)
+        
+        let okAction: UIAlertAction = UIAlertAction.init(title: "OK", style: UIAlertActionStyle.default,
+                                                         handler: { (action) -> Void in
+        })
+        
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
 }
 
+extension ViewController: GIDSignInDelegate {
+    //Google Sign In
+    
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!,
+              withError error: Error!) {
+        if let error = error {
+            print("\(error.localizedDescription)")
+            showAlert(error.localizedDescription)
+        }
+    }
+    
+    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!,
+              withError error: Error!) {
+        // Perform any operations when the user disconnects from app here.
+        // ...
+        showAlert(error.localizedDescription)
+    }
+}
+
+extension Date {
+    /// Returns the amount of days from another date
+    func days(from date: Date) -> Int {
+        return Calendar.current.dateComponents([.day], from: date, to: self).day ?? 0
+    }
+}
