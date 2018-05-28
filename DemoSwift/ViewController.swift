@@ -117,11 +117,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
     }
     
     func playerView(_ playerView: YTPlayerView, didChangeTo state: YTPlayerState) {
-//        if state == .playing {
-//            let uilabel = UILabel(frame: CGRect(x: 0, y: 0, width: 150, height: 100))
-//            uilabel.backgroundColor = .red
-//            UIApplication.shared.delegate!.window!?.rootViewController!.view.addSubview(uilabel)
-//        }
+        if state == .playing {
+            //Once Video is start playing show the hearts
+            Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(showTheLove), userInfo: nil, repeats: true)
+        }
     }
     
     func playerView(_ playerView: YTPlayerView, receivedError error: YTPlayerError) {
