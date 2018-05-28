@@ -11,8 +11,11 @@ import youtube_ios_player_helper
 import GoogleAPIClientForREST
 import GoogleSignIn
 
+let appDel = UIApplication.shared.delegate!
+
 class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelegate, YTPlayerViewDelegate, GIDSignInUIDelegate {
 
+    @IBOutlet weak var btnLove: UIButton!
     @IBOutlet var txtComment: UITextField!
     @IBOutlet var viewPlayer: YTPlayerView!
     @IBOutlet var tableView: UITableView!
@@ -25,6 +28,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
     var ytCommentsData = YTLiveCommentsData()
     var liveChatId: String?
     
+    private struct HeartAttributes {
+        static let heartSize: CGFloat = 36
+        static let burstDelay: TimeInterval = 0.1
+    }
+    var burstTimer: Timer?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         GIDSignIn.sharedInstance().scopes = ["https://www.googleapis.com/auth/youtube.readonly", "https://www.googleapis.com/auth/youtube", "https://www.googleapis.com/auth/youtube.force-ssl"]
@@ -36,13 +45,39 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
         self.loadDemoVideo()
         self.addLayer()
         getCommentsData()
+        
+        //To add Love
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(didLongPress))
+        longPressGesture.minimumPressDuration = 0.2
+        btnLove.addGestureRecognizer(longPressGesture)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    @objc func didLongPress(longPressGesture: UILongPressGestureRecognizer) {
+        switch longPressGesture.state {
+        case .began:
+            burstTimer = Timer.scheduledTimer(timeInterval: HeartAttributes.burstDelay, target: self, selector: #selector(showTheLove), userInfo: nil, repeats: true)
+        case .ended, .cancelled:
+            burstTimer?.invalidate()
+        default:
+            break
+        }
     }
 
+    @IBAction func btnLoveTapped(_ sender: UIButton) {
+        showTheLove(gesture: nil)
+    }
+    
+    @objc func showTheLove(gesture: UITapGestureRecognizer?) {
+        let heart = HeartView(frame: CGRect(x: UIScreen.main.bounds.width, y: 0, width: HeartAttributes.heartSize, height: HeartAttributes.heartSize))
+        view.addSubview(heart)
+        let fountainX = ((btnLove.frame.origin.x + (btnLove.frame.size.width / 2)) - ((HeartAttributes.heartSize / 2.0))) //HeartAttributes.heartSize / 2.0 + 20
+        let fountainY = view.bounds.height - HeartAttributes.heartSize / 2.0 - 10
+        heart.center = CGPoint(x: fountainX, y: fountainY)
+        print(fountainX)
+        print(fountainY)
+        print(heart)
+        heart.animateInView(view: view)
+    }
     
     @IBAction func onSend(_ sender: Any) {
         if !GIDSignIn.sharedInstance().hasAuthInKeychain() || GIDSignIn.sharedInstance().currentUser == nil {

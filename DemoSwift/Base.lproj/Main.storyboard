@@ -22,30 +22,51 @@
                                 <rect key="frame" x="0.0" y="622" width="375" height="45"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Gxt-zA-KFF">
-                                        <rect key="frame" x="0.0" y="0.0" width="325" height="45"/>
-                                        <nil key="textColor"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="267" height="45"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kgs-bk-9kS">
-                                        <rect key="frame" x="325" y="0.0" width="50" height="45"/>
-                                        <state key="normal" title="Send"/>
+                                        <rect key="frame" x="275" y="0.0" width="50" height="45"/>
+                                        <state key="normal" title="Send">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
                                         <connections>
                                             <action selector="onSend:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Vuh-jd-dRZ"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z3W-CG-iJC">
+                                        <rect key="frame" x="325" y="0.0" width="50" height="45"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="TDH-8X-RuW"/>
+                                        </constraints>
+                                        <state key="normal" title="Love">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="btnLoveTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bYr-Oo-5TR"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstItem="kgs-bk-9kS" firstAttribute="leading" secondItem="Gxt-zA-KFF" secondAttribute="trailing" constant="8" id="1jj-ts-7eJ"/>
+                                    <constraint firstItem="z3W-CG-iJC" firstAttribute="top" secondItem="wq1-Vz-fgp" secondAttribute="top" id="4fj-NG-iKs"/>
                                     <constraint firstItem="Gxt-zA-KFF" firstAttribute="leading" secondItem="wq1-Vz-fgp" secondAttribute="leading" id="6vt-gf-AWR"/>
                                     <constraint firstAttribute="height" constant="45" id="Avg-bb-sXf"/>
-                                    <constraint firstItem="kgs-bk-9kS" firstAttribute="leading" secondItem="Gxt-zA-KFF" secondAttribute="trailing" id="B9f-57-FSB"/>
+                                    <constraint firstItem="z3W-CG-iJC" firstAttribute="leading" secondItem="kgs-bk-9kS" secondAttribute="trailing" id="BW8-VY-hgD"/>
                                     <constraint firstItem="Gxt-zA-KFF" firstAttribute="top" secondItem="wq1-Vz-fgp" secondAttribute="top" id="GWF-uX-HwL"/>
-                                    <constraint firstAttribute="trailing" secondItem="Gxt-zA-KFF" secondAttribute="trailing" constant="50" id="KNx-0w-2O2"/>
+                                    <constraint firstAttribute="bottom" secondItem="z3W-CG-iJC" secondAttribute="bottom" id="H3q-8C-fh9"/>
+                                    <constraint firstAttribute="trailing" secondItem="z3W-CG-iJC" secondAttribute="trailing" id="XVM-dP-5cs"/>
+                                    <constraint firstAttribute="bottom" secondItem="kgs-bk-9kS" secondAttribute="bottom" id="ZNc-mP-uPB"/>
                                     <constraint firstItem="kgs-bk-9kS" firstAttribute="top" secondItem="wq1-Vz-fgp" secondAttribute="top" id="due-zp-2aw"/>
+                                    <constraint firstItem="kgs-bk-9kS" firstAttribute="width" secondItem="z3W-CG-iJC" secondAttribute="width" id="jLj-wm-w0q"/>
                                     <constraint firstAttribute="bottom" secondItem="kgs-bk-9kS" secondAttribute="bottom" id="jif-lG-fIw"/>
+                                    <constraint firstItem="kgs-bk-9kS" firstAttribute="top" secondItem="wq1-Vz-fgp" secondAttribute="top" id="mZC-H5-jPU"/>
                                     <constraint firstAttribute="bottom" secondItem="Gxt-zA-KFF" secondAttribute="bottom" id="vIu-3u-WGn"/>
-                                    <constraint firstAttribute="trailing" secondItem="kgs-bk-9kS" secondAttribute="trailing" id="vTp-HH-URr"/>
                                 </constraints>
                             </view>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tZc-g1-VC2" customClass="YTPlayerView">
@@ -115,6 +136,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="btnLove" destination="z3W-CG-iJC" id="8M5-T3-Fcb"/>
                         <outlet property="tableView" destination="KPJ-wb-VZI" id="iQT-m0-XeP"/>
                         <outlet property="txtComment" destination="Gxt-zA-KFF" id="2cY-sH-QcT"/>
                         <outlet property="viewGradient" destination="PQB-de-vb2" id="IvR-lr-sBZ"/>
@@ -123,6 +145,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="136.80000000000001" y="98.50074962518741"/>
         </scene>
     </scenes>
 </document>
