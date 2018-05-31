@@ -27,7 +27,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
     let VIDEO_ID = "xS6pwQ1Gs2s"
     var ytCommentsData = YTLiveCommentsData()
     var liveChatId: String?
-    
+    var keyboardHeight: CGFloat = 0.0
     private struct HeartAttributes {
         static let heartSize: CGFloat = 36
         static let burstDelay: TimeInterval = 0.1
@@ -50,8 +50,23 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(didLongPress))
         longPressGesture.minimumPressDuration = 0.2
         btnLove.addGestureRecognizer(longPressGesture)
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: NSNotification.Name.UIKeyboardWillShow,
+            object: nil
+        )
     }
 
+    @objc func keyboardWillShow(_ notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            keyboardHeight = keyboardRectangle.height
+            textFieldDidBeginEditing(txtComment)
+        }
+    }
+    
     @objc func didLongPress(longPressGesture: UILongPressGestureRecognizer) {
         switch longPressGesture.state {
         case .began:
@@ -104,6 +119,24 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
         return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        animateViewMoving(up: true, moveValue: keyboardHeight)
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        animateViewMoving(up: false, moveValue: keyboardHeight)
+    }
+    
+    func animateViewMoving (up:Bool, moveValue :CGFloat){
+        let movementDuration:TimeInterval = 0.3
+        let movement:CGFloat = ( up ? -moveValue : moveValue)
+        UIView.beginAnimations( "animateView", context: nil)
+        UIView.setAnimationBeginsFromCurrentState(true)
+        UIView.setAnimationDuration(movementDuration )
+        self.view.frame = self.view.frame.offsetBy(dx: 0, dy: movement)
+        UIView.commitAnimations()
     }
     
     private func loadDemoVideo() {

@@ -139,8 +139,8 @@ public class HeartView: UIView {
         #if true
             let theme = HeartTheme.randomTheme()
             let imageBundle = Bundle(for: HeartView.self)
-            let heartImage = UIImage(named: "heart", in: imageBundle, compatibleWith: nil)
-            let heartImageBorder = UIImage(named: "heartBorder", in: imageBundle, compatibleWith: nil)
+            let heartImage = UIImage(named: "star", in: imageBundle, compatibleWith: nil)
+            let heartImageBorder = UIImage(named: "star", in: imageBundle, compatibleWith: nil)
             
             //Draw background image (mimics border)
             theme.strokeColor.setFill()

@@ -38,12 +38,12 @@
                                             <action selector="onSend:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Vuh-jd-dRZ"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z3W-CG-iJC">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z3W-CG-iJC">
                                         <rect key="frame" x="325" y="0.0" width="50" height="45"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="50" id="TDH-8X-RuW"/>
                                         </constraints>
-                                        <state key="normal" title="Love">
+                                        <state key="normal" image="star">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
@@ -148,4 +148,7 @@
             <point key="canvasLocation" x="136.80000000000001" y="98.50074962518741"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="star" width="25" height="25"/>
+    </resources>
 </document>
