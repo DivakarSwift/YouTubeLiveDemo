@@ -13,8 +13,15 @@ import GoogleSignIn
 
 let appDel = UIApplication.shared.delegate!
 
-class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelegate, YTPlayerViewDelegate, GIDSignInUIDelegate {
+class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelegate, YTPlayerViewDelegate, GIDSignInUIDelegate, UITableViewDelegate {
 
+    @IBOutlet weak var viewLive: UIView! {
+        didSet {
+            viewLive.clipsToBounds = true
+            viewLive.layer.cornerRadius = 2
+        }
+    }
+    @IBOutlet weak var btnStar: UIButton!
     @IBOutlet weak var btnLove: UIButton!
     @IBOutlet var txtComment: UITextField!
     @IBOutlet var viewPlayer: YTPlayerView!
@@ -29,7 +36,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
     var liveChatId: String?
     var keyboardHeight: CGFloat = 0.0
     private struct HeartAttributes {
-        static let heartSize: CGFloat = 36
+        static let heartSize: CGFloat = 30
         static let burstDelay: TimeInterval = 0.1
     }
     var burstTimer: Timer?
@@ -47,9 +54,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
         getCommentsData()
         
         //To add Love
-        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(didLongPress))
-        longPressGesture.minimumPressDuration = 0.2
-        btnLove.addGestureRecognizer(longPressGesture)
+        let longPressGestureLove = UILongPressGestureRecognizer(target: self, action: #selector(didLongPressLove(longPressGesture:)))
+        longPressGestureLove.minimumPressDuration = 0.2
+        btnLove.addGestureRecognizer(longPressGestureLove)
+        
+        let longPressGestureStar = UILongPressGestureRecognizer(target: self, action: #selector(didLongPressStar(longPressGesture:)))
+        longPressGestureStar.minimumPressDuration = 0.2
+        btnStar.addGestureRecognizer(longPressGestureStar)
         
         NotificationCenter.default.addObserver(
             self,
@@ -67,10 +78,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
         }
     }
     
-    @objc func didLongPress(longPressGesture: UILongPressGestureRecognizer) {
+    @objc func didLongPressLove(longPressGesture: UILongPressGestureRecognizer) {
         switch longPressGesture.state {
         case .began:
-            burstTimer = Timer.scheduledTimer(timeInterval: HeartAttributes.burstDelay, target: self, selector: #selector(showTheLove), userInfo: nil, repeats: true)
+            burstTimer = Timer.scheduledTimer(timeInterval: HeartAttributes.burstDelay, target: self, selector: #selector(showTheLove(gesture:)), userInfo: nil, repeats: true)
         case .ended, .cancelled:
             burstTimer?.invalidate()
         default:
@@ -78,20 +89,46 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
         }
     }
 
+    @objc func didLongPressStar(longPressGesture: UILongPressGestureRecognizer) {
+        switch longPressGesture.state {
+        case .began:
+            burstTimer = Timer.scheduledTimer(timeInterval: HeartAttributes.burstDelay, target: self, selector: #selector(showTheStar(gesture:)), userInfo: nil, repeats: true)
+        case .ended, .cancelled:
+            burstTimer?.invalidate()
+        default:
+            break
+        }
+    }
+    
     @IBAction func btnLoveTapped(_ sender: UIButton) {
         showTheLove(gesture: nil)
     }
     
+    @IBAction func btnStarTapped(_ sender: UIButton) {
+        showTheLove(gesture: nil)
+    }
+    
     @objc func showTheLove(gesture: UITapGestureRecognizer?) {
-        let heart = HeartView(frame: CGRect(x: UIScreen.main.bounds.width, y: 0, width: HeartAttributes.heartSize, height: HeartAttributes.heartSize))
+        let heart = HeartView(frame: CGRect(x: UIScreen.main.bounds.width, y: 0, width: HeartAttributes.heartSize, height: HeartAttributes.heartSize),imgSimpleName: "heart", imgBorderName: "heartBorder")
         view.addSubview(heart)
-        let fountainX = ((btnLove.frame.origin.x + (btnLove.frame.size.width / 2)) - ((HeartAttributes.heartSize / 2.0))) //HeartAttributes.heartSize / 2.0 + 20
-        let fountainY = view.bounds.height - HeartAttributes.heartSize / 2.0 - 10
+        let fountainX = ((btnLove.frame.origin.x + (btnLove.frame.size.width / 2)))
+        // - ((HeartAttributes.heartSize / 2.0))) + 8//HeartAttributes.heartSize / 2.0 + 20
+        let fountainY = view.bounds.height - HeartAttributes.heartSize / 2.0 - 4
         heart.center = CGPoint(x: fountainX, y: fountainY)
-        print(fountainX)
-        print(fountainY)
-        print(heart)
         heart.animateInView(view: view)
+    }
+    
+    @objc func showTheStar(gesture: UITapGestureRecognizer?) {
+        let star = HeartView(frame: CGRect(x: UIScreen.main.bounds.width, y: 0, width: HeartAttributes.heartSize, height: HeartAttributes.heartSize), imgSimpleName: "star", imgBorderName: "star")
+        view.addSubview(star)
+        let fountainX = ((btnStar.frame.origin.x + (btnStar.frame.size.width / 2))) //HeartAttributes.heartSize / 2.0 + 20
+        let fountainY = view.bounds.height - HeartAttributes.heartSize / 2.0 - 4
+        star.center = CGPoint(x: fountainX, y: fountainY)
+        star.animateInView(view: view)
+    }
+    
+    @IBAction func btnCloseTapped(_ sender: UIButton) {
+        
     }
     
     @IBAction func onSend(_ sender: Any) {
@@ -153,6 +190,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
         if state == .playing {
             //Once Video is start playing show the hearts
             Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(showTheLove), userInfo: nil, repeats: true)
+            Timer.scheduledTimer(timeInterval: 0.55, target: self, selector: #selector(showTheStar), userInfo: nil, repeats: true)
         }
     }
     
@@ -174,10 +212,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellComment")
-        let lblComment = cell?.viewWithTag(1) as! UILabel
-        lblComment.text = ytCommentsData.arrComments[indexPath.row].comment
-        return cell!
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellComment") as! CommentsCell
+        cell.lblComment.text = ytCommentsData.arrComments[indexPath.row].comment
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
     }
     
     func getCommentsData() {

@@ -13,6 +13,7 @@
 		3EA7199E20AF34A800930594 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EA7199D20AF34A800930594 /* Assets.xcassets */; };
 		3EA719A120AF34A800930594 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3EA7199F20AF34A800930594 /* LaunchScreen.storyboard */; };
 		51E458C53E0E72DEB1ACB756 /* Pods_DemoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD24EFA7940199D6CD6CDD90 /* Pods_DemoSwift.framework */; };
+		7B0927C720C2E93F00D58228 /* CommentsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0927C620C2E93F00D58228 /* CommentsCell.swift */; };
 		7B8D20AE20BC4AB100BDCCA3 /* HeartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8D20AC20BC4AB100BDCCA3 /* HeartView.swift */; };
 		7B8D20AF20BC4AB100BDCCA3 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8D20AD20BC4AB100BDCCA3 /* Helpers.swift */; };
 		7BC14D6220B494A4001782A3 /* YouTubeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC14D6120B494A4001782A3 /* YouTubeHelper.swift */; };
@@ -27,6 +28,7 @@
 		3EA719A020AF34A800930594 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3EA719A220AF34A800930594 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3EA719A920AF36CB00930594 /* SwiftDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SwiftDemo-Bridging-Header.h"; sourceTree = "<group>"; };
+		7B0927C620C2E93F00D58228 /* CommentsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsCell.swift; sourceTree = "<group>"; };
 		7B8D20AC20BC4AB100BDCCA3 /* HeartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeartView.swift; sourceTree = "<group>"; };
 		7B8D20AD20BC4AB100BDCCA3 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		7BC14D6120B494A4001782A3 /* YouTubeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeHelper.swift; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 				7B8D20AB20BC4AA400BDCCA3 /* HeartView */,
 				3EA7199620AF34A800930594 /* AppDelegate.swift */,
 				3EA7199820AF34A800930594 /* ViewController.swift */,
+				7B0927C620C2E93F00D58228 /* CommentsCell.swift */,
 				7BC14D6120B494A4001782A3 /* YouTubeHelper.swift */,
 				3EA7199A20AF34A800930594 /* Main.storyboard */,
 				3EA7199D20AF34A800930594 /* Assets.xcassets */,
@@ -248,6 +251,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3EA7199920AF34A800930594 /* ViewController.swift in Sources */,
+				7B0927C720C2E93F00D58228 /* CommentsCell.swift in Sources */,
 				7B8D20AE20BC4AB100BDCCA3 /* HeartView.swift in Sources */,
 				3EA7199720AF34A800930594 /* AppDelegate.swift in Sources */,
 				7B8D20AF20BC4AB100BDCCA3 /* Helpers.swift in Sources */,

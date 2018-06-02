@@ -42,6 +42,9 @@ let PI = CGFloat.pi
 
 public class HeartView: UIView {
     
+    var imgSimpleName: String!
+    var imgBorderName: String!
+    
     private struct Durations {
         static let Full: TimeInterval = 4.0
         static let Bloom: TimeInterval = 0.5
@@ -51,6 +54,12 @@ public class HeartView: UIView {
         super.init(frame: frame)
         backgroundColor = UIColor.clear
         layer.anchorPoint = CGPoint(x: 0.5, y: 1)
+    }
+    
+    convenience public init(frame: CGRect, imgSimpleName: String, imgBorderName: String) {
+        self.init(frame: frame)
+        self.imgSimpleName = imgSimpleName
+        self.imgBorderName = imgBorderName
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -139,8 +148,8 @@ public class HeartView: UIView {
         #if true
             let theme = HeartTheme.randomTheme()
             let imageBundle = Bundle(for: HeartView.self)
-            let heartImage = UIImage(named: "star", in: imageBundle, compatibleWith: nil)
-            let heartImageBorder = UIImage(named: "star", in: imageBundle, compatibleWith: nil)
+            let heartImage = UIImage(named: imgSimpleName, in: imageBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+            let heartImageBorder = UIImage(named: imgBorderName, in: imageBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
             
             //Draw background image (mimics border)
             theme.strokeColor.setFill()
