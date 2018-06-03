@@ -24,7 +24,7 @@
                                 <rect key="frame" x="0.0" y="622" width="375" height="45"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Gxt-zA-KFF">
-                                        <rect key="frame" x="0.0" y="0.0" width="223" height="45"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="271" height="45"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -32,7 +32,7 @@
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kgs-bk-9kS">
-                                        <rect key="frame" x="231" y="0.0" width="40" height="45"/>
+                                        <rect key="frame" x="279" y="0.0" width="40" height="45"/>
                                         <state key="normal" title="Send">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
@@ -41,7 +41,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mmu-pW-PWM">
-                                        <rect key="frame" x="279" y="0.0" width="40" height="45"/>
+                                        <rect key="frame" x="327" y="0.0" width="40" height="45"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="40" id="L4r-Wc-509"/>
                                         </constraints>
@@ -52,38 +52,22 @@
                                             <action selector="btnStarTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="38u-Sa-sx0"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z3W-CG-iJC">
-                                        <rect key="frame" x="327" y="0.0" width="40" height="45"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="40" id="TDH-8X-RuW"/>
-                                        </constraints>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" image="heart">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="btnLoveTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bYr-Oo-5TR"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="z3W-CG-iJC" firstAttribute="top" secondItem="wq1-Vz-fgp" secondAttribute="top" id="4fj-NG-iKs"/>
+                                    <constraint firstAttribute="trailing" secondItem="mmu-pW-PWM" secondAttribute="trailing" constant="8" id="161-uV-MQq"/>
                                     <constraint firstItem="Gxt-zA-KFF" firstAttribute="leading" secondItem="wq1-Vz-fgp" secondAttribute="leading" id="6vt-gf-AWR"/>
                                     <constraint firstAttribute="height" constant="45" id="Avg-bb-sXf"/>
-                                    <constraint firstItem="z3W-CG-iJC" firstAttribute="leading" secondItem="mmu-pW-PWM" secondAttribute="trailing" constant="8" id="DRx-gI-GX6"/>
+                                    <constraint firstItem="mmu-pW-PWM" firstAttribute="top" secondItem="kgs-bk-9kS" secondAttribute="top" id="ETF-ta-OkQ"/>
                                     <constraint firstItem="Gxt-zA-KFF" firstAttribute="top" secondItem="wq1-Vz-fgp" secondAttribute="top" id="GWF-uX-HwL"/>
-                                    <constraint firstAttribute="bottom" secondItem="z3W-CG-iJC" secondAttribute="bottom" id="H3q-8C-fh9"/>
                                     <constraint firstItem="kgs-bk-9kS" firstAttribute="leading" secondItem="Gxt-zA-KFF" secondAttribute="trailing" constant="8" id="RCr-Vj-Qac"/>
                                     <constraint firstItem="mmu-pW-PWM" firstAttribute="leading" secondItem="kgs-bk-9kS" secondAttribute="trailing" constant="8" id="SVO-oH-oi1"/>
-                                    <constraint firstAttribute="trailing" secondItem="z3W-CG-iJC" secondAttribute="trailing" constant="8" id="XVM-dP-5cs"/>
+                                    <constraint firstItem="mmu-pW-PWM" firstAttribute="bottom" secondItem="kgs-bk-9kS" secondAttribute="bottom" id="WZ2-Dw-5G3"/>
                                     <constraint firstAttribute="bottom" secondItem="kgs-bk-9kS" secondAttribute="bottom" id="ZNc-mP-uPB"/>
-                                    <constraint firstItem="mmu-pW-PWM" firstAttribute="bottom" secondItem="z3W-CG-iJC" secondAttribute="bottom" id="bAK-hb-Xo4"/>
                                     <constraint firstItem="kgs-bk-9kS" firstAttribute="top" secondItem="wq1-Vz-fgp" secondAttribute="top" id="due-zp-2aw"/>
-                                    <constraint firstItem="kgs-bk-9kS" firstAttribute="width" secondItem="z3W-CG-iJC" secondAttribute="width" id="jLj-wm-w0q"/>
+                                    <constraint firstItem="kgs-bk-9kS" firstAttribute="width" secondItem="mmu-pW-PWM" secondAttribute="width" id="eNZ-sA-Tko"/>
                                     <constraint firstAttribute="bottom" secondItem="kgs-bk-9kS" secondAttribute="bottom" id="jif-lG-fIw"/>
                                     <constraint firstItem="kgs-bk-9kS" firstAttribute="top" secondItem="wq1-Vz-fgp" secondAttribute="top" id="mZC-H5-jPU"/>
-                                    <constraint firstItem="mmu-pW-PWM" firstAttribute="top" secondItem="z3W-CG-iJC" secondAttribute="top" id="qeJ-ed-C8k"/>
                                     <constraint firstAttribute="bottom" secondItem="Gxt-zA-KFF" secondAttribute="bottom" id="vIu-3u-WGn"/>
                                 </constraints>
                             </view>
@@ -203,7 +187,6 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="btnLove" destination="z3W-CG-iJC" id="8M5-T3-Fcb"/>
                         <outlet property="btnStar" destination="mmu-pW-PWM" id="BQo-of-jRj"/>
                         <outlet property="tableView" destination="KPJ-wb-VZI" id="iQT-m0-XeP"/>
                         <outlet property="txtComment" destination="Gxt-zA-KFF" id="2cY-sH-QcT"/>
@@ -219,7 +202,6 @@
     </scenes>
     <resources>
         <image name="cancel" width="15" height="15"/>
-        <image name="heart" width="25" height="25"/>
         <image name="star" width="25" height="25"/>
     </resources>
 </document>

@@ -22,7 +22,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
         }
     }
     @IBOutlet weak var btnStar: UIButton!
-    @IBOutlet weak var btnLove: UIButton!
     @IBOutlet var txtComment: UITextField!
     @IBOutlet var viewPlayer: YTPlayerView!
     @IBOutlet var tableView: UITableView!
@@ -43,6 +42,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        hideKeyboardWhenTappedAround() //dismiss keyboard
         GIDSignIn.sharedInstance().scopes = ["https://www.googleapis.com/auth/youtube.readonly", "https://www.googleapis.com/auth/youtube", "https://www.googleapis.com/auth/youtube.force-ssl"]
         GIDSignIn.sharedInstance().delegate = self
         GIDSignIn.sharedInstance().uiDelegate = self
@@ -53,11 +53,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
         self.addLayer()
         getCommentsData()
         
-        //To add Love
-        let longPressGestureLove = UILongPressGestureRecognizer(target: self, action: #selector(didLongPressLove(longPressGesture:)))
-        longPressGestureLove.minimumPressDuration = 0.2
-        btnLove.addGestureRecognizer(longPressGestureLove)
-        
+        //To add Star
         let longPressGestureStar = UILongPressGestureRecognizer(target: self, action: #selector(didLongPressStar(longPressGesture:)))
         longPressGestureStar.minimumPressDuration = 0.2
         btnStar.addGestureRecognizer(longPressGestureStar)
@@ -74,18 +70,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
         if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
             keyboardHeight = keyboardRectangle.height
-            textFieldDidBeginEditing(txtComment)
-        }
-    }
-    
-    @objc func didLongPressLove(longPressGesture: UILongPressGestureRecognizer) {
-        switch longPressGesture.state {
-        case .began:
-            burstTimer = Timer.scheduledTimer(timeInterval: HeartAttributes.burstDelay, target: self, selector: #selector(showTheLove(gesture:)), userInfo: nil, repeats: true)
-        case .ended, .cancelled:
-            burstTimer?.invalidate()
-        default:
-            break
+//            textFieldDidBeginEditing(txtComment)
+            animateViewMoving(up: true, moveValue: keyboardHeight)
         }
     }
 
@@ -100,22 +86,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
         }
     }
     
-    @IBAction func btnLoveTapped(_ sender: UIButton) {
-        showTheLove(gesture: nil)
-    }
-    
     @IBAction func btnStarTapped(_ sender: UIButton) {
-        showTheLove(gesture: nil)
-    }
-    
-    @objc func showTheLove(gesture: UITapGestureRecognizer?) {
-        let heart = HeartView(frame: CGRect(x: UIScreen.main.bounds.width, y: 0, width: HeartAttributes.heartSize, height: HeartAttributes.heartSize),imgSimpleName: "heart", imgBorderName: "heartBorder")
-        view.addSubview(heart)
-        let fountainX = ((btnLove.frame.origin.x + (btnLove.frame.size.width / 2)))
-        // - ((HeartAttributes.heartSize / 2.0))) + 8//HeartAttributes.heartSize / 2.0 + 20
-        let fountainY = view.bounds.height - HeartAttributes.heartSize / 2.0 - 4
-        heart.center = CGPoint(x: fountainX, y: fountainY)
-        heart.animateInView(view: view)
+        showTheStar(gesture: nil)
     }
     
     @objc func showTheStar(gesture: UITapGestureRecognizer?) {
@@ -159,7 +131,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        animateViewMoving(up: true, moveValue: keyboardHeight)
+//        animateViewMoving(up: true, moveValue: keyboardHeight)
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
@@ -188,9 +160,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
     
     func playerView(_ playerView: YTPlayerView, didChangeTo state: YTPlayerState) {
         if state == .playing {
-            //Once Video is start playing show the hearts
-            Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(showTheLove), userInfo: nil, repeats: true)
-            Timer.scheduledTimer(timeInterval: 0.55, target: self, selector: #selector(showTheStar), userInfo: nil, repeats: true)
+            //Once Video is start playing show the stars
+            Timer.scheduledTimer(timeInterval: 0.9, target: self, selector: #selector(showTheStar), userInfo: nil, repeats: true)
         }
     }
     
@@ -319,5 +290,18 @@ extension Date {
     /// Returns the amount of days from another date
     func days(from date: Date) -> Int {
         return Calendar.current.dateComponents([.day], from: date, to: self).day ?? 0
+    }
+}
+
+// Put this piece of code anywhere you like
+extension UIViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 }

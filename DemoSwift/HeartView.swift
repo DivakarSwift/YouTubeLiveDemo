@@ -13,16 +13,20 @@ struct HeartTheme {
     let strokeColor: UIColor
     //using white borders for this example. Set your colors.
     static let availableThemes = [
-        (UIColor(hex: 0xe66f5e), UIColor(white: 1.0, alpha: 0.8)),
-        (UIColor(hex: 0x6a69a0), UIColor(white: 1.0, alpha: 0.8)),
-        (UIColor(hex: 0x81cc88), UIColor(white: 1.0, alpha: 0.8)),
-        (UIColor(hex: 0xfd3870), UIColor(white: 1.0, alpha: 0.8)),
-        (UIColor(hex: 0x6ecff6), UIColor(white: 1.0, alpha: 0.8)),
-        (UIColor(hex: 0xc0aaf7), UIColor(white: 1.0, alpha: 0.8)),
-        (UIColor(hex: 0xf7603b), UIColor(white: 1.0, alpha: 0.8)),
-        (UIColor(hex: 0x39d3d3), UIColor(white: 1.0, alpha: 0.8)),
-        (UIColor(hex: 0xfed301), UIColor(white: 1.0, alpha: 0.8))
-    ]
+        (UIColor(red: 255/255, green: 215/255, blue: 0/255, alpha: 1), UIColor(white: 1.0, alpha: 0.8)),
+        (UIColor(red: 173/255, green: 216/255, blue: 230/255, alpha: 1), UIColor(white: 1.0, alpha: 0.8)),
+        (UIColor(red: 255/255, green: 215/255, blue: 0/255, alpha: 1), UIColor(white: 1.0, alpha: 0.8)),
+        (UIColor(red: 220/255, green: 20/255, blue: 60/255, alpha: 1), UIColor(white: 1.0, alpha: 0.8)),
+        (UIColor(red: 255/255, green: 215/255, blue: 0/255, alpha: 1), UIColor(white: 1.0, alpha: 0.8))]
+//        (UIColor(hex: 0xe66f5e), UIColor(white: 1.0, alpha: 0.8)),
+//        (UIColor(hex: 0x6a69a0), UIColor(white: 1.0, alpha: 0.8)),
+//        (UIColor(hex: 0x81cc88), UIColor(white: 1.0, alpha: 0.8)),
+//        (UIColor(hex: 0xfd3870), UIColor(white: 1.0, alpha: 0.8)),
+//        (UIColor(hex: 0x6ecff6), UIColor(white: 1.0, alpha: 0.8)),
+//        (UIColor(hex: 0xc0aaf7), UIColor(white: 1.0, alpha: 0.8)),
+//        (UIColor(hex: 0xf7603b), UIColor(white: 1.0, alpha: 0.8)),
+//        (UIColor(hex: 0x39d3d3), UIColor(white: 1.0, alpha: 0.8)),
+//        (UIColor(hex: 0xfed301), UIColor(white: 1.0, alpha: 0.8))
     
     static func randomTheme() -> HeartTheme {
         let r = Int(randomNumber(cap: availableThemes.count))
