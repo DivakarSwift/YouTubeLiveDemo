@@ -306,7 +306,7 @@ class LiveStreamsVC: UIViewController, UITableViewDataSource, UITextFieldDelegat
     }
 }
 
-extension ViewController: GIDSignInDelegate {
+extension LiveStreamsVC: GIDSignInDelegate {
     //Google Sign In
     
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!,
