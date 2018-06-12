@@ -13,7 +13,7 @@ import GoogleSignIn
 
 let appDel = UIApplication.shared.delegate!
 
-class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelegate, YTPlayerViewDelegate, GIDSignInUIDelegate, UITableViewDelegate {
+class LiveStreamsVC: UIViewController, UITableViewDataSource, UITextFieldDelegate, YTPlayerViewDelegate, GIDSignInUIDelegate, UITableViewDelegate {
 
     @IBOutlet weak var viewLive: UIView! {
         didSet {
@@ -39,7 +39,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
         static let burstDelay: TimeInterval = 0.1
     }
     var burstTimer: Timer?
-    
+    var originalFrameTableView: CGRect?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround() //dismiss keyboard
@@ -64,6 +65,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
             name: NSNotification.Name.UIKeyboardWillShow,
             object: nil
         )
+        
+        //To hide Comments Tableview
+        
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeRight.direction = UISwipeGestureRecognizerDirection.right
+        viewGradient.addGestureRecognizer(swipeRight)
+        
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeDown.direction = UISwipeGestureRecognizerDirection.left
+        viewGradient.addGestureRecognizer(swipeDown)
     }
 
     @objc func keyboardWillShow(_ notification: Notification) {
@@ -97,6 +108,34 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
         let fountainY = view.bounds.height - HeartAttributes.heartSize / 2.0 - 4
         star.center = CGPoint(x: fountainX, y: fountainY)
         star.animateInView(view: view)
+    }
+    
+    @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizerDirection.right:
+                print("Swiped right")
+                if originalFrameTableView == nil {
+                    originalFrameTableView = self.tableView.frame
+                    UIView.animate(withDuration: 0.5, delay: 0, options: [UIViewAnimationOptions.beginFromCurrentState, UIViewAnimationOptions.curveEaseInOut], animations: {
+                        self.tableView.frame = CGRect(x: self.view.bounds.width, y: 0, width: self.tableView.frame.size.width, height: self.tableView.frame.size.height)
+                    }) { (_) in
+                        
+                    }
+                }
+            case UISwipeGestureRecognizerDirection.left:
+                print("Swiped left")
+                if originalFrameTableView != nil {
+                    UIView.animate(withDuration: 0.5, delay: 0, options: [UIViewAnimationOptions.beginFromCurrentState, UIViewAnimationOptions.curveEaseInOut], animations: {
+                        self.tableView.frame = self.originalFrameTableView!
+                    }) { (_) in
+                        self.originalFrameTableView = nil
+                    }
+                }
+            default:
+                break
+            }
+        }
     }
     
     @IBAction func btnCloseTapped(_ sender: UIButton) {
